@@ -29,7 +29,15 @@ if (isset($_POST['code'])) {
     $code = (int)$_POST['code'];
 
     if ($code == 0) {
-        echo "Le code zéro est un cas particulier !<br>";
+        $sql = "SELECT code, article FROM articles";
+        $result = $conn->query($sql);
+        
+        if ($result && $result->num_rows > 0) {
+            echo "<h3>Liste de tous les articles :</h3>";
+            while ($row = $result->fetch_assoc()) {
+                echo "Code : " . $row['code'] . " - Article : " . $row['article'] . "<br>";
+            }
+        }
     } elseif ($code >= 1 && $code <= 999) {
         $sql = "SELECT article FROM articles WHERE code = $code";
         $result = $conn->query($sql);
